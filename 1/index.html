@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Cek Member Asrama</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+    }
+    .container {
+        max-width: 420px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    select, input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+    }
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    .success {
+        background: #d4edda;
+        color: #155724;
+    }
+    .error {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>Cek Member Asrama</h2>
+
+    <label>Nama Member:</label>
+    <input type="text" id="nama" placeholder="Masukkan nama">
+
+    <label>Jenis Asrama:</label>
+    <select id="jenis">
+        <option value="">-- pilih jenis --</option>
+        <option value="putra">Putra</option>
+        <option value="putri">Putri</option>
+    </select>
+
+    <label>Gedung Asrama:</label>
+    <select id="gedung">
+        <option value="">-- pilih gedung --</option>
+        <option value="soekarno">Soekarno</option>
+        <option value="hatta">Hatta</option>
+        <option value="ahmad yani">Ahmad Yani</option>
+        <option value="d.sekartaji">D. Sekartaji</option>
+        <option value="d.ambarsari">D. Ambarsari</option>
+        <option value="cut meutia">Cut Meutia</option>
+        <option value="d.kilisuci">D. Kilisuci</option>
+    </select>
+
+    <button onclick="cekAsrama()">CEK MEMBER</button>
+
+    <div id="result"></div>
+</div>
+
+
+<script>
+// === contoh database anggota ===
+const dataAsrama = [
+    { nama: "Budi", jenis: "putra", gedung: "soekarno" },
+    { nama: "Andi", jenis: "putra", gedung: "hatta" },
+    { nama: "Rizki", jenis: "putra", gedung: "ahmad yani" },
+    { nama: "Siti", jenis: "putri", gedung: "cut meutia" },
+    { nama: "Ayu", jenis: "putri", gedung: "d.ambarsari" },
+    { nama: "Dewi", jenis: "putri", gedung: "d.sekartaji" }
+];
+
+function cekAsrama() {
+    const nama = document.getElementById("nama").value.trim();
+    const jenis = document.getElementById("jenis").value;
+    const gedung = document.getElementById("gedung").value;
+
+    const resultBox = document.getElementById("result");
+
+    // validasi
+    if (!nama || !jenis || !gedung) {
+        resultBox.innerHTML = `<div class="result error">Semua field harus diisi!</div>`;
+        return;
+    }
+
+    // cek data
+    const found = dataAsrama.find(m =>
+        m.nama.toLowerCase() === nama.toLowerCase() &&
+        m.jenis === jenis &&
+        m.gedung === gedung
+    );
+
+    if (found) {
+        resultBox.innerHTML = `
+            <div class="result success">
+                ✔ DATA DITEMUKAN<br><br>
+                <b>Nama:</b> ${found.nama}<br>
+                <b>Jenis:</b> ${found.jenis}<br>
+                <b>Gedung:</b> ${found.gedung}
+            </div>
+        `;
+    } else {
+        resultBox.innerHTML = `
+            <div class="result error">
+                ✖ DATA TIDAK DITEMUKAN dalam daftar.
+            </div>
+        `;
+    }
+}
+</script>
+
+</body>
+</html>
